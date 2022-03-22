@@ -8,16 +8,16 @@ const ProductCard = ({title, price, rating, description, mainImage}) => {
 	
 	return (
 		<div className="ProductCard-container">
-			<div style={{ width: 280, height: 200}}>
+			<div style={{ width: 280, height: 170, borderRadius: 8, marginRight: 16}}>
 				<img src={mainImage}  className="ProductCard-thumbnail"/>
 			</div>
 			<div className='ProductCard-content'>
-				<h3>{title}</h3>
+				<p className="ProductsCard-title">{title}</p>
 				<div className='ProductCard-priceRating'>
-					<h3>{price}</h3>
-					<h3>{rating}</h3>
+					<p className="ProductsCard-title">{`€ ${price}`}</p>
+					<p className="ProductsCard-description">{rating}</p>
 				</div>
-				<p>{shortDescription}</p>
+				<p className="ProductsCard-description">{shortDescription}</p>
 				<div>
 					<AiOutlineHeart />
 					<AiOutlineUser />
