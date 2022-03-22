@@ -1,9 +1,9 @@
 import "./styles.css";
 import { NavLink } from "react-router-dom";
-import search from "../../icons/search.svg";
-import heart from "../../icons/heart.svg";
-import user from "../../icons/user.svg";
-import cart from "../../icons/cart.svg";
+
+import { AiOutlineHeart, AiOutlineUser } from 'react-icons/ai';
+import { FiSearch, FiShoppingCart } from 'react-icons/fi';
+
 
 const NavBar = () => {
   return (
@@ -48,13 +48,13 @@ const NavBar = () => {
         </div>
         <div className="NavBar-searchBar">
           <span>{""}</span>
-          <img src={search} className="NavBar-icon" />
+		  <FiSearch  style={{color: '#9295AA', margin: 8}}/>
         </div>
       </div>
       <div className="NavBar-container-icons">
-        <img src={user} className="NavBar-icon" />
-        <img src={cart} className="NavBar-icon" />
-        <img src={heart} className="NavBar-icon" />
+		<AiOutlineUser  size={17} style={{ color: 'white' }}/>
+		<FiShoppingCart size={17} style={{ color: 'white' }}/>
+		<AiOutlineHeart size={17} style={{ color: 'white' }}/>
       </div>
     </div>
   );
