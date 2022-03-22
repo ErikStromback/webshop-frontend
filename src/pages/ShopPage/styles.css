@@ -1,0 +1,16 @@
+.ShopPage-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.ShopPage-categories {
+    width: 15%;
+    height: 400px;
+    /* background-color: coral; */
+    margin-top: 130px;
+}
+.ShopPage-product-feed {
+    margin-top: 130px;
+    width: 50%;
+}
