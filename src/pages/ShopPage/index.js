@@ -25,6 +25,9 @@ const ShopPage = () => {
 	<div className="ShopPage-container">
 		<div className="ShopPage-categories"></div>
 		<div className="ShopPage-product-feed">
+			{products.length === 0&&
+				<h3>No products were found</h3>
+			}
 			{products.length !== 0 && products.map(item => 
 				<ProductCard key={products.id} {...item}/>
 			)}

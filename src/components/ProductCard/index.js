@@ -18,10 +18,10 @@ const ProductCard = ({title, price, rating, description, mainImage}) => {
 					<p className="ProductsCard-description">{rating}</p>
 				</div>
 				<p className="ProductsCard-description">{shortDescription}</p>
-				<div>
-					<AiOutlineHeart />
-					<AiOutlineUser />
-					<FiShoppingCart />
+				<div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+					<AiOutlineHeart style={{ fontSize: 24, margin: 20 }}/>
+					<AiOutlineUser style={{ fontSize: 24, margin: 20 }}/>
+					<FiShoppingCart style={{ fontSize: 24, margin: 20 }}/>
 				</div>
 			</div>
 		</div>
