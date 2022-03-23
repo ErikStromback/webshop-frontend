@@ -28,8 +28,8 @@ const ShopPage = () => {
 			{products.length === 0&&
 				<h3>No products were found</h3>
 			}
-			{products.length !== 0 && products.map(item => 
-				<ProductCard key={products.id} {...item}/>
+			{products.length !== 0 && products.map(product => 
+				<ProductCard key={product.id} {...product}/>
 			)}
 		</div>
 	</div>

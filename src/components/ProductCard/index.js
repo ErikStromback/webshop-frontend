@@ -8,7 +8,7 @@ const ProductCard = ({title, price, rating, description, mainImage}) => {
 	
 	return (
 		<div className="ProductCard-container">
-			<div style={{ width: 280, height: 170, borderRadius: 8, marginRight: 16}}>
+			<div style={{ width: 280, height: 170, borderRadius: 8, margin: 8 }}>
 				<img src={mainImage}  className="ProductCard-thumbnail"/>
 			</div>
 			<div className='ProductCard-content'>
@@ -19,13 +19,26 @@ const ProductCard = ({title, price, rating, description, mainImage}) => {
 				</div>
 				<p className="ProductsCard-description">{shortDescription}</p>
 				<div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-					<AiOutlineHeart style={{ fontSize: 24, margin: 20 }}/>
-					<AiOutlineUser style={{ fontSize: 24, margin: 20 }}/>
-					<FiShoppingCart style={{ fontSize: 24, margin: 20 }}/>
+					<button style={buttonStyle}><AiOutlineHeart /></button>
+					<button style={buttonStyle}><AiOutlineUser /></button>
+					<button style={buttonStyle}><FiShoppingCart /></button>
 				</div>
 			</div>
 		</div>
 	);
 };
+
+const buttonStyle = {
+	display: 'flex',
+	fontSize: 16,
+	margin: 8,
+	padding: 8,
+	borderRadius: 30,
+	background: 'none',
+	color: '#111c85',
+	borderWidth: 1,
+	border: 'solid',
+	boxShadow: 'rgba(240, 240, 240, 0.9)',
+}
 
 export { ProductCard };
