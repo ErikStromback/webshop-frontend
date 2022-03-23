@@ -1,5 +1,6 @@
 import { AiOutlineHeart, AiOutlineUser } from 'react-icons/ai';
 import { FiShoppingCart } from 'react-icons/fi';
+import { Rating } from '../';
 import './styles.css';
 
 const ProductCard = ({title, price, rating, description, mainImage}) => {
@@ -15,30 +16,17 @@ const ProductCard = ({title, price, rating, description, mainImage}) => {
 				<p className="ProductsCard-title">{title}</p>
 				<div className='ProductCard-priceRating'>
 					<p className="ProductsCard-title">{`€ ${price}`}</p>
-					<p className="ProductsCard-description">{rating}</p>
+					<Rating className="ProductsCard-description" rating={rating} />
 				</div>
 				<p className="ProductsCard-description">{shortDescription}</p>
 				<div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-					<button style={buttonStyle}><AiOutlineHeart /></button>
-					<button style={buttonStyle}><AiOutlineUser /></button>
-					<button style={buttonStyle}><FiShoppingCart /></button>
+					<button className='ProductsCard-button'><AiOutlineHeart /></button>
+					<button className='ProductsCard-button'><AiOutlineUser /></button>
+					<button className='ProductsCard-button'><FiShoppingCart /></button>
 				</div>
 			</div>
 		</div>
 	);
 };
-
-const buttonStyle = {
-	display: 'flex',
-	fontSize: 16,
-	margin: 8,
-	padding: 8,
-	borderRadius: 30,
-	background: 'none',
-	color: '#111c85',
-	borderWidth: 1,
-	border: 'solid',
-	boxShadow: 'rgba(240, 240, 240, 0.9)',
-}
 
 export { ProductCard };
