@@ -12,7 +12,6 @@ import {
 } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
 import { Header } from "../../components/Header";
-import { Footer } from "../../components/Footer";
 
 const DetailsPage = () => {
   const routeParams = useParams();
@@ -145,7 +144,6 @@ const DetailsPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
