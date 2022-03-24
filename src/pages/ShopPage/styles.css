@@ -6,10 +6,32 @@
 
 .ShopPage-categories {
     width: 15%;
-    height: 400px;
-    /* background-color: coral; */
+    min-width: 100px;
+    height: 800px;
     margin-top: 130px;
+    margin-right: 16px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
 }
+.ShopPage-categories > p {
+    margin: 0;
+    margin-bottom: 8px;
+    color: #151875;
+    font-size: 20px;
+    font-family: crimson-text;
+}
+.ShopPage-categories > label {
+    text-align: start;
+    color: #7e81a2;
+    margin-bottom: 8px;
+}
+.ShopPage-categories > label > input {
+    margin: 0;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
 .ShopPage-product-feed {
     margin-top: 130px;
     width: 60%;
