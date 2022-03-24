@@ -12,11 +12,13 @@
   width: 50%;
   display: flex;
   align-items: center;
-  margin: 35px;
+  margin: 30px;
+  font-family: "Lato";
+  font-weight: 500;
 }
 
 .DetailsPage-product-card {
-  height: 400px;
+  height: 350px;
   min-width: 970px;
   width: 50%;
   display: flex;
@@ -25,12 +27,28 @@
   margin-bottom: 12px;
 }
 
+.rating-review {
+  display: flex;
+  flex-direction: row;
+  margin-top: 16;
+  align-items: center;
+}
+
+.fake-reviews {
+  padding-bottom: 3px;
+  padding-right: 10px;
+}
+
+.price {
+  color: #151875;
+  font-weight: 400;
+}
+
 .DetailsPage-product-text {
-  height: 721px;
+  height: 550px;
   width: 100%;
   display: flex;
   background-color: #f9f8fe;
-  align-items: center;
   justify-content: center;
 }
 
@@ -47,11 +65,12 @@ h1 {
   font-family: "Lato";
   font-style: normal;
   color: #111c85;
+  margin-top: 10px;
 }
 
 .product-img {
-  height: 300px;
-  max-width: 220px;
+  height: 270px;
+  max-width: 200px;
   margin-right: 50px;
   display: flex;
   flex: 1;
@@ -68,4 +87,109 @@ h1 {
   box-sizing: border-box;
   font-family: "Lato";
   font-weight: 400;
+}
+
+.add-to-cart-button {
+  display: flex;
+  width: 153px;
+  height: 32px;
+  background-color: #ff3eb2;
+  color: white;
+  border-radius: 8px;
+  border: 1px solid #ff3eb2;
+  box-sizing: border-box;
+  font-family: "Lato";
+  font-weight: 400;
+  font-size: 16;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+}
+
+.favourite-button {
+  display: flex;
+  width: 117px;
+  height: 32px;
+  background-color: white;
+  color: #151875;
+  border-radius: 8px;
+  border: 1px solid #1d3178;
+  box-sizing: border-box;
+  font-family: "Lato";
+  font-weight: 400;
+  font-size: 16;
+  align-items: center;
+  justify-content: center;
+}
+
+.row {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.social-icon-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 18%;
+  color: #151875;
+  font-family: "Lato";
+  font-weight: 400;
+  font-size: 16;
+  margin: 10px;
+  margin-bottom: 100px;
+}
+
+.product-description-card {
+  height: 350px;
+  min-width: 970px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.product-description-tabs {
+  display: flex;
+  width: 970px;
+  flex-direction: row;
+  color: #151875;
+  font-family: "Lato";
+  font-weight: 600;
+  font-size: 24;
+  margin-top: 90px;
+}
+
+.product-description-tabs-copy {
+  width: 970px;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  font-family: "Lato";
+  font-style: normal;
+  color: #111c85;
+  margin-top: 40px;
+}
+
+.product-description-tabs-copy > h1 {
+  display: flex;
+  min-width: 970px;
+  font-size: 22px;
+  font-family: "Lato";
+  font-weight: 600;
+  font-style: normal;
+  color: #151875;
+}
+
+.product-description-tabs-copy > p {
+  display: flex;
+  min-width: 970px;
+  font-size: 16px;
+  font-family: "Lato";
+  font-weight: 600;
+  color: #a9acc6;
+  margin-bottom: 30px;
 }

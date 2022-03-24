@@ -1,0 +1,50 @@
+.footer-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 600px;
+  width: 100%;
+  background-color: #0d0e43;
+}
+.footer-logo {
+  font-family: "Crimson Text";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 47px;
+  margin-top: 60px;
+}
+
+.footer-link-col {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+  text-align: left;
+}
+
+.footer-link-col > h1 {
+  font-family: "Crimson Text";
+  color: white;
+  font-weight: 400;
+  font-size: 24px;
+  font-style: normal;
+}
+
+.footer-follow-us {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}
+.footer-follow-us > h1 {
+  font-family: "Crimson Text";
+  color: white;
+  font-weight: 400;
+  font-size: 24px;
+  font-style: normal;
+}
+
+.footer-social-icons {
+  display: flex;
+  flex-direction: row;
+  margin-top: 22px;
+}

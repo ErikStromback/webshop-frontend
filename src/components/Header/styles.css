@@ -1,0 +1,67 @@
+.header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 450px;
+  width: 100%;
+  background-color: #8568ff;
+}
+
+.header-title {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+  max-width: 465px;
+  font-size: 36px;
+  font-family: "Crimson Text";
+  color: white;
+  text-align: left;
+  margin-left: 250px;
+}
+
+.image-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-image {
+  width: 425px;
+  height: 594px;
+  background: url(https://images.unsplash.com/photo-1590343104492-972a3169bc98?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80);
+  background-size: cover;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 8px;
+  position: absolute;
+  position: absolute;
+  right: 15.99%;
+  top: 19.71%;
+}
+
+.white-card-one {
+  width: 425px;
+  height: 594px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  transform: matrix(0.99, 0.1, -0.11, 1, 0, 0);
+  position: absolute;
+  position: absolute;
+  right: 11.83%;
+  top: 21.16%;
+}
+
+.white-card-two {
+  width: 425px;
+  height: 594px;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  transform: matrix(0.99, -0.1, 0.11, 1, 0, 0);
+  position: absolute;
+  right: 20.79%;
+  top: 30.64%;
+}
