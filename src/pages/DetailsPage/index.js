@@ -4,6 +4,7 @@ import axios from "axios";
 import "./styles.css";
 import { NavLink } from "react-router-dom";
 import { Rating } from "../../components";
+import { ShoppingCart } from "../../components/ShoppingCart";
 import {
   AiOutlineHeart,
   AiFillTwitterCircle,
@@ -15,10 +16,17 @@ import { Header } from "../../components/Header";
 
 const DetailsPage = () => {
   const routeParams = useParams();
-  const [productById, setProductById] = useState([]);
+  const [product, setProduct] = useState([]);
   const [category, setCategory] = useState("");
+  const [cartItems, setCartItems] = useState([]);
 
-  const fetchProductById = async () => {
+  const onAdd = () => {
+    const newCartItems = [...cartItems];
+    newCartItems.push(product);
+    setCartItems(newCartItems);
+  };
+
+  const fetchProduct = async () => {
     try {
       const productResponse = await axios.get(
         `http://localhost:4010/products/${routeParams.id}`
@@ -26,7 +34,7 @@ const DetailsPage = () => {
       const categoryResponse = await axios.get(
         `http://localhost:4010/categories/${productResponse.data.categoryId}`
       );
-      setProductById(productResponse.data);
+      setProduct(productResponse.data);
       setCategory(categoryResponse.data);
     } catch (error) {
       console.log("ERROR: fetch product by id", error);
@@ -34,42 +42,39 @@ const DetailsPage = () => {
   };
 
   useEffect(() => {
-    fetchProductById();
+    fetchProduct();
   }, []);
 
-  console.log(category);
+  // console.log(category);
 
   return (
     <div className="DetailsPage">
-      <Header />
       <div className="DetailsPage-path">
         <NavLink to="/">Home </NavLink>
         <NavLink to="/shop" style={{ marginLeft: "4px" }}>
           {" "}
           . Shop{" "}
         </NavLink>
-        <p style={{ color: "#FB2E86", marginLeft: "4px" }}>
-          . {productById.title}
-        </p>
+        <p style={{ color: "#FB2E86", marginLeft: "4px" }}>. {product.title}</p>
       </div>
       <div className="DetailsPage-product-card">
-        <img className="product-img" src={productById.mainImage} />
+        <img className="product-img" src={product.mainImage} />
         <div className="product-description">
-          <h1>{productById.title}</h1>
+          <h1>{product.title}</h1>
           <div className="rating-review">
             <Rating
               className="ProductsCard-description"
-              rating={productById.rating}
+              rating={product.rating}
             />
             <span className="fake-reviews">
               ({Math.round(Math.random() * 100)})
             </span>
             <button className="review-button">Add Review</button>
           </div>
-          <p className="price">€{productById.price}</p>
-          <p style={{ color: "#a9acc6" }}>{productById.description}</p>
+          <p className="price">€{product.price}</p>
+          <p style={{ color: "#a9acc6" }}>{product.description}</p>
           <div className="row">
-            <button className="add-to-cart-button">
+            <button className="add-to-cart-button" onClick={onAdd}>
               {
                 <FiShoppingCart
                   size={17}
@@ -143,6 +148,9 @@ const DetailsPage = () => {
             </p>
           </div>
         </div>
+      </div>
+      <div>
+        <ShoppingCart cartItems={cartItems} />
       </div>
     </div>
   );
