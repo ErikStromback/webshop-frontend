@@ -7,7 +7,10 @@ const ShopPage = () => {
 	const [categories, setCategories] = useState([]);
 	const [fetchedProducts, setFetchedProducts] = useState([]);
 	const [products, setProducts] = useState([]);
-	const [filterGroups, setFilterGroups] = useState([[], [], []]);
+
+	const [filterCategories, setFilterCategories] = useState([]);
+	const [filterRatings, setFilterRatings] = useState([]);
+	const [filterPrices, setFilterPrices] = useState([]);
 	const prices = [
 		{ id: 1, lowest: 0, highest: 10 },
 		{ id: 2, lowest: 10, highest: 50 },
@@ -35,36 +38,33 @@ const ShopPage = () => {
 	};
 
 	// filter functions
-	const hasPriceRange = (lowest, highest) => item => item.price >= lowest && item.price < highest;
-	const hasAtLeastRating = value => item => Math.round(item.rating) === value;
-	const hasCategoryId = value => item => item.categoryId === value;
+	const hasPriceRange = (lowest, highest, item) => item.price >= lowest && item.price < highest;
+	const hasAtLeastRating = (value, item) => Math.round(item.rating) === value;
+	const hasCategoryId = (value, item) => item.categoryId === value;
 
-	const addFilter = (groupIndex, filterFunction) => {
-		const newFilterGroups = [[...filterGroups[0]], [...filterGroups[1]], [...filterGroups[2]]];
-		newFilterGroups[groupIndex].push(filterFunction);
-
-		setFilterGroups(newFilterGroups);
-	};
-	// remove function will not diferentiate functions if value is a mapped item, maybe symbols key?
-	const removeFilter = (groupIndex, filterFunction) => {
-		const index = filterGroups[groupIndex].findIndex(filter => String(filter) === String(filterFunction));
-		if (index > -1) {
-			const newFilterGroups = [[...filterGroups[0]], [...filterGroups[1]], [...filterGroups[2]]];
-			newFilterGroups[groupIndex].splice(index, 1);
-			setFilterGroups(newFilterGroups);
-		}
+	const removeFilter = (setState, value) => {
+		setState(prev => {
+			const index = prev.indexOf(value);
+			const newArray = [...prev];
+			newArray.splice(index, 1);
+			return newArray;
+		})
 	};
 
 	const filterProducts = () => {
-		const filteredProducts = fetchedProducts.filter(product => filterGroups.every(filters => (
-			filters.some(condition => condition()(product)) || !filters.length
-		)));
+		const filteredProducts = fetchedProducts.filter(product => {
+			const validCategories = filterCategories.some(value => hasCategoryId(value, product)) || !filterCategories.length;
+			const validRatings = filterRatings.some(value => hasAtLeastRating(value, product)) || !filterRatings.length;
+			const validPrices = filterPrices.some(value => hasPriceRange(value.split('_')[0], value.split('_')[1], product)) || !filterPrices.length;
+
+			return validCategories && validRatings && validPrices;
+		});
 		setProducts(filteredProducts);
 	};
 
 	useEffect(() => {
 		filterProducts();
-	}, [filterGroups[0], filterGroups[1], filterGroups[2]]);
+	}, [filterCategories, filterRatings, filterPrices]);
 
 	useEffect(() => {
 		fetchProducts();
@@ -85,8 +85,8 @@ const ShopPage = () => {
 							type="checkbox"
 							onChange={event => {
 								event.target.checked
-									? addFilter(0, () => hasCategoryId(item.id))
-									: removeFilter(0, () => hasCategoryId(item.id))
+									? setFilterCategories([...filterCategories, item.id])
+									: removeFilter(setFilterCategories, item.id)
 							}}
 						/>{item.title}
 					</label>
@@ -99,8 +99,8 @@ const ShopPage = () => {
 							type="checkbox"
 							onChange={event => {
 								event.target.checked
-									? addFilter(1, () => hasAtLeastRating(item))
-									: removeFilter(1, () => hasAtLeastRating(item))
+									? setFilterRatings([...filterRatings, item])
+									: removeFilter(setFilterRatings, item)
 							}}
 						/>{item.title}<Rating rating={item} style={{ margin: 0 }} />
 					</label>
@@ -115,8 +115,8 @@ const ShopPage = () => {
 								type="checkbox"
 								onChange={event => {
 									event.target.checked
-										? addFilter(2, () => hasPriceRange(lowest, highest))
-										: removeFilter(2, () => hasPriceRange(lowest, highest))
+										? setFilterPrices([...filterPrices, `${lowest}_${highest}`])
+										: removeFilter(setFilterPrices, `${lowest}_${highest}`)
 								}}
 							/>{`€${lowest}.00 - €${highest}.00`}
 						</label>
