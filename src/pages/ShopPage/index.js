@@ -39,23 +39,23 @@ const ShopPage = () => {
 	const hasAtLeastRating = value => item => Math.round(item.rating) === value;
 	const hasCategoryId = value => item => item.categoryId === value;
 
-	const addFilter = (groupKey, filterFunction) => {
+	const addFilter = (groupIndex, filterFunction) => {
 		const newFilterGroups = [[...filterGroups[0]], [...filterGroups[1]], [...filterGroups[2]]];
-		newFilterGroups[groupKey].push(filterFunction);
+		newFilterGroups[groupIndex].push(filterFunction);
 
 		setFilterGroups(newFilterGroups);
 	};
-	const removeFilter = (groupKey, filterFunction) => {
-		const index = filterGroups[groupKey].findIndex(filter => String(filter) === String(filterFunction));
+	// remove function will not diferentiate functions if value is a mapped item, maybe symbols key?
+	const removeFilter = (groupIndex, filterFunction) => {
+		const index = filterGroups[groupIndex].findIndex(filter => String(filter) === String(filterFunction));
 		if (index > -1) {
 			const newFilterGroups = [[...filterGroups[0]], [...filterGroups[1]], [...filterGroups[2]]];
-			newFilterGroups[groupKey].splice(index, 1);
+			newFilterGroups[groupIndex].splice(index, 1);
 			setFilterGroups(newFilterGroups);
 		}
 	};
 
 	const filterProducts = () => {
-		console.log(filterGroups)
 		const filteredProducts = fetchedProducts.filter(product => filterGroups.every(filters => (
 			filters.some(condition => condition()(product)) || !filters.length
 		)));
@@ -74,6 +74,10 @@ const ShopPage = () => {
 	return (
 		<div className="ShopPage-container">
 			<div className="ShopPage-categories">
+
+				{/* make into component filterGroups.map(item, index) => 
+				<GroupCheckbox index={index} filterFunction={hasCategoryId} checkboxArray={categories} 
+				/>  */}
 				<p>Categories</p>
 				{categories.length === 0 ? <p>No categories were found</p> : categories.map(item => (
 					<label key={item.id}>
