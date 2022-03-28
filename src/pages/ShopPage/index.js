@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ProductCard, Rating } from '../../components';
 import './styles.css';
@@ -7,7 +7,7 @@ const ShopPage = () => {
 	const [categories, setCategories] = useState([]);
 	const [fetchedProducts, setFetchedProducts] = useState([]);
 	const [products, setProducts] = useState([]);
-	const [filters, setFilters] = useState([]);
+	const [filterGroups, setFilterGroups] = useState([[], [], []]);
 	const prices = [
 		{ id: 1, lowest: 0, highest: 10 },
 		{ id: 2, lowest: 10, highest: 50 },
@@ -33,105 +33,99 @@ const ShopPage = () => {
 			console.log('ERROR: fetch categories', error);
 		}
 	};
-	
+
 	// filter functions
 	const hasPriceRange = (lowest, highest) => item => item.price >= lowest && item.price < highest;
 	const hasAtLeastRating = value => item => Math.round(item.rating) === value;
 	const hasCategoryId = value => item => item.categoryId === value;
 
-	const addFilter = (filterName, filterFunction) => {
-		const newFilters = [...filters];
-		newFilters.push({[filterName]: filterFunction});
-		setFilters(newFilters);
+	const addFilter = (groupKey, filterFunction) => {
+		const newFilterGroups = [[...filterGroups[0]], [...filterGroups[1]], [...filterGroups[2]]];
+		newFilterGroups[groupKey].push(filterFunction);
+
+		setFilterGroups(newFilterGroups);
 	};
-	const removeFilter = filterName => {
-		const index = filters.findIndex(filter => Object.keys(filter)[0] === filterName);
-		const newFilters = [...filters];
+	const removeFilter = (groupKey, filterFunction) => {
+		const index = filterGroups[groupKey].findIndex(filter => String(filter) === String(filterFunction));
 		if (index > -1) {
-			newFilters.splice(index, 1);
-			setFilters(newFilters);
+			const newFilterGroups = [[...filterGroups[0]], [...filterGroups[1]], [...filterGroups[2]]];
+			newFilterGroups[groupKey].splice(index, 1);
+			setFilterGroups(newFilterGroups);
 		}
 	};
 
 	const filterProducts = () => {
-		if (filters.length === 0) {
-			setProducts(fetchedProducts);
-			return;
-		}
-		const filteredProducts = fetchedProducts.filter(product => {
-			const conditions = filters.map(filter => {
-				return Object.values(filter)[0]()(product);
-			});
-			const isValid = conditions.includes(true);
-			return isValid;
-		});
+		console.log(filterGroups)
+		const filteredProducts = fetchedProducts.filter(product => filterGroups.every(filters => (
+			filters.some(condition => condition()(product)) || !filters.length
+		)));
 		setProducts(filteredProducts);
 	};
 
 	useEffect(() => {
 		filterProducts();
-	},[filters]);
+	}, [filterGroups[0], filterGroups[1], filterGroups[2]]);
 
 	useEffect(() => {
 		fetchProducts();
 		fetchCategories();
-	},[]);
+	}, []);
 
 	return (
-	<div className="ShopPage-container">
-		<div className="ShopPage-categories">
-			<p>Categories</p>
-			{ categories.length === 0 ? <p>No categories were found</p> : categories.map(item => (
-				<label key={item.id}>
-					<input 
-						type="checkbox" 
-						onChange={ event => {
-							event.target.checked
-							? addFilter(`categoryId${item.id}`, () => hasCategoryId(item.id))
-							: removeFilter(`categoryId${item.id}`)
-						}}
-					/>{item.title}
-				</label>
-			))}
-			<div style={{height: 60}} />
-			<p>Rating</p>
-			{ [5, 4, 3, 2, 1].map(item => (
-				<label key={item.toString()}>
-					<input 
-						type="checkbox" 
-						onChange={ event => {
-							event.target.checked
-							? addFilter(`rating${item.id}`, () => hasAtLeastRating(item))
-							: removeFilter(`rating${item.id}`)
-						}}
-					/>{item.title}<Rating rating={item} style={{ margin: 0 }}/>
-				</label>
-			))}
-			<div style={{height: 60}} />
-			<p>Rating</p>
-			{ prices.map(item => {
-				const { id, lowest, highest } = item;
-				return (
-					<label key={id}>
-						<input 
-							type="checkbox" 
-							onChange={ event => {
+		<div className="ShopPage-container">
+			<div className="ShopPage-categories">
+				<p>Categories</p>
+				{categories.length === 0 ? <p>No categories were found</p> : categories.map(item => (
+					<label key={item.id}>
+						<input
+							type="checkbox"
+							onChange={event => {
 								event.target.checked
-								? addFilter(`price${id}`, () => hasPriceRange(lowest, highest))
-								: removeFilter(`price${id}`)
+									? addFilter(0, () => hasCategoryId(item.id))
+									: removeFilter(0, () => hasCategoryId(item.id))
 							}}
-						/>{`€${lowest}.00 - €${highest}.00`}
-					</label> 
-				);
-			})}
+						/>{item.title}
+					</label>
+				))}
+				<div style={{ height: 60 }} />
+				<p>Rating</p>
+				{[5, 4, 3, 2, 1].map(item => (
+					<label key={item.toString()}>
+						<input
+							type="checkbox"
+							onChange={event => {
+								event.target.checked
+									? addFilter(1, () => hasAtLeastRating(item))
+									: removeFilter(1, () => hasAtLeastRating(item))
+							}}
+						/>{item.title}<Rating rating={item} style={{ margin: 0 }} />
+					</label>
+				))}
+				<div style={{ height: 60 }} />
+				<p>Rating</p>
+				{prices.map(item => {
+					const { id, lowest, highest } = item;
+					return (
+						<label key={id}>
+							<input
+								type="checkbox"
+								onChange={event => {
+									event.target.checked
+										? addFilter(2, () => hasPriceRange(lowest, highest))
+										: removeFilter(2, () => hasPriceRange(lowest, highest))
+								}}
+							/>{`€${lowest}.00 - €${highest}.00`}
+						</label>
+					);
+				})}
+			</div>
+			<div className="ShopPage-product-feed">
+				{products.length === 0 ? <h3>No products were found</h3> : products.map(product =>
+					<ProductCard key={product.id} {...product} />
+				)}
+			</div>
 		</div>
-		<div className="ShopPage-product-feed">
-			{ products.length === 0 ? <h3>No products were found</h3> :  products.map(product => 
-				<ProductCard key={product.id} {...product}/>
-			)}
-		</div>
-	</div>
-  );
+	);
 };
 
 export default ShopPage;
