@@ -38,37 +38,33 @@ const ShopPage = () => {
 	};
 
 	// filter functions
-	const hasPriceRange = (lowest, highest, item) => item.price >= lowest && item.price < highest;
+	const hasPriceRange = (range, item) => item.price >= range.split('_')[0] && item.price < range.split('_')[1];
 	const hasAtLeastRating = (rating, item) => Math.round(item.rating) === rating;
 	const hasCategoryId = (categoryId, item) => item.categoryId === categoryId;
 
-	const removeFilter = (setState, value) => {
-		setState(prevArray => {
-			const index = prevArray.indexOf(value);
-			const newArray = [...prevArray];
-			newArray.splice(index, 1);
-			return newArray;
-			// return [...prev.slice(0, index), ...prev.slice(index + 1)];
-			// return [prev.filter((item, i) => i !== index )];
-
-		})
+	const toggleFilter = (isFiltering, setState, value) => {
+		if (isFiltering) {
+			setState(prev => [...prev, value]);
+		} else {
+			setState(prev => prev.filter((item, index) => index !== prev.indexOf(value)));
+		}
 	};
 
 	const filterProducts = () => {
-		const filteredProducts = fetchedProducts.filter(product => {
-			const validCategories = filterCategories.some(value => hasCategoryId(value, product)) || !filterCategories.length;
-			const validRatings = filterRatings.some(value => hasAtLeastRating(value, product)) || !filterRatings.length;
-			const validPrices = filterPrices.some(value => hasPriceRange(value.split('_')[0], value.split('_')[1], product)) || !filterPrices.length;
-
-			return validCategories && validRatings && validPrices;
-		});
+		const filteredProducts = fetchedProducts.filter(product => (
+			[
+				filterCategories.some(value => hasCategoryId(value, product)) || !filterCategories.length,
+				filterRatings.some(value => hasAtLeastRating(value, product)) || !filterRatings.length,
+				filterPrices.some(value => hasPriceRange(value, product)) || !filterPrices.length,
+			].every(i => i)
+		));
 		setProducts(filteredProducts);
 	};
-
+	// update products
 	useEffect(() => {
 		filterProducts();
 	}, [filterCategories, filterRatings, filterPrices]);
-
+	// fetch data
 	useEffect(() => {
 		fetchProducts();
 		fetchCategories();
@@ -77,19 +73,13 @@ const ShopPage = () => {
 	return (
 		<div className="ShopPage-container">
 			<div className="ShopPage-categories">
-
-				{/* make into component filterGroups.map(item, index) => 
-				<GroupCheckbox index={index} filterFunction={hasCategoryId} checkboxArray={categories} 
-				/>  */}
 				<p>Categories</p>
 				{categories.length === 0 ? <p>No categories were found</p> : categories.map(item => (
 					<label key={item.id}>
 						<input
 							type="checkbox"
 							onChange={event => {
-								event.target.checked
-									? setFilterCategories([...filterCategories, item.id])
-									: removeFilter(setFilterCategories, item.id)
+								toggleFilter(event.target.checked, setFilterCategories, item.id)
 							}}
 						/>{item.title}
 					</label>
@@ -101,9 +91,7 @@ const ShopPage = () => {
 						<input
 							type="checkbox"
 							onChange={event => {
-								event.target.checked
-									? setFilterRatings([...filterRatings, item])
-									: removeFilter(setFilterRatings, item)
+								toggleFilter(event.target.checked, setFilterRatings, item)
 							}}
 						/>{item.title}<Rating rating={item} style={{ margin: 0 }} />
 					</label>
@@ -117,9 +105,7 @@ const ShopPage = () => {
 							<input
 								type="checkbox"
 								onChange={event => {
-									event.target.checked
-										? setFilterPrices([...filterPrices, `${lowest}_${highest}`])
-										: removeFilter(setFilterPrices, `${lowest}_${highest}`)
+									toggleFilter(event.target.checked, setFilterPrices, `${lowest}_${highest}`)
 								}}
 							/>{`€${lowest}.00 - €${highest}.00`}
 						</label>
