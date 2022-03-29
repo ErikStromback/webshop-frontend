@@ -51,13 +51,11 @@ const ShopPage = () => {
 	};
 
 	const filterProducts = () => {
-		const filteredProducts = fetchedProducts.filter(product => (
-			[
-				filterCategories.some(value => hasCategoryId(value, product)) || !filterCategories.length,
-				filterRatings.some(value => hasAtLeastRating(value, product)) || !filterRatings.length,
-				filterPrices.some(value => hasPriceRange(value, product)) || !filterPrices.length,
-			].every(i => i)
-		));
+		const filteredProducts = fetchedProducts.filter(product => [
+			filterCategories.some(value => hasCategoryId(value, product)) || !filterCategories.length,
+			filterRatings.some(value => hasAtLeastRating(value, product)) || !filterRatings.length,
+			filterPrices.some(value => hasPriceRange(value, product)) || !filterPrices.length,
+		].every(i => i));
 		setProducts(filteredProducts);
 	};
 	// update products
