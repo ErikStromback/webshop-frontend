@@ -39,15 +39,18 @@ const ShopPage = () => {
 
 	// filter functions
 	const hasPriceRange = (lowest, highest, item) => item.price >= lowest && item.price < highest;
-	const hasAtLeastRating = (value, item) => Math.round(item.rating) === value;
-	const hasCategoryId = (value, item) => item.categoryId === value;
+	const hasAtLeastRating = (rating, item) => Math.round(item.rating) === rating;
+	const hasCategoryId = (categoryId, item) => item.categoryId === categoryId;
 
 	const removeFilter = (setState, value) => {
-		setState(prev => {
-			const index = prev.indexOf(value);
-			const newArray = [...prev];
+		setState(prevArray => {
+			const index = prevArray.indexOf(value);
+			const newArray = [...prevArray];
 			newArray.splice(index, 1);
 			return newArray;
+			// return [...prev.slice(0, index), ...prev.slice(index + 1)];
+			// return [prev.filter((item, i) => i !== index )];
+
 		})
 	};
 
