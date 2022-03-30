@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+
 import { ProductCard, Rating } from '../../components';
 import './styles.css';
 
@@ -37,16 +38,17 @@ const ShopPage = () => {
 		}
 	};
 
-	// filter functions
+	// Filter functions, return true/false if item.prop === value
 	const hasPriceRange = (range, item) => item.price >= range.split('_')[0] && item.price < range.split('_')[1];
 	const hasAtLeastRating = (rating, item) => Math.round(item.rating) === rating;
 	const hasCategoryId = (categoryId, item) => item.categoryId === categoryId;
 
+	// Checkbox function
 	const toggleFilter = (isFiltering, setState, value) => {
 		if (isFiltering) {
 			setState(prev => [...prev, value]);
 		} else {
-			setState(prev => prev.filter((item, index) => index !== prev.indexOf(value)));
+			setState(prev => prev.filter(item => item !== value));
 		}
 	};
 
@@ -58,11 +60,13 @@ const ShopPage = () => {
 		].every(i => i));
 		setProducts(filteredProducts);
 	};
-	// update products
+
+	// Update products if filters change
 	useEffect(() => {
 		filterProducts();
 	}, [filterCategories, filterRatings, filterPrices]);
-	// fetch data
+
+	// Fetch data on mount
 	useEffect(() => {
 		fetchProducts();
 		fetchCategories();
